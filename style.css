@@ -143,8 +143,10 @@ ul, ol { list-style: none; }
   mix-blend-mode: difference;
 }
 .nav.is-hidden { transform: translateY(-110%); }
-.nav__logo { font-weight: 800; font-size: 20px; letter-spacing: -.04em; display: inline-block; }
-.nav__logo span { color: var(--lime); }
+.nav__logo { font-weight: 800; font-size: 20px; letter-spacing: -.04em; display: inline-flex; align-items: center; gap: 8px; line-height: 1; }
+.nav__mark { width: 30px; height: 30px; overflow: visible; }
+.nav__spark { fill: var(--lime); transform-box: fill-box; transform-origin: center; transition: transform .7s var(--ease); }
+.nav__logo:hover .nav__spark, .nav__logo:focus-visible .nav__spark { transform: rotate(90deg) scale(1.25); }
 .nav__index { display: flex; gap: clamp(14px, 2vw, 32px); font-family: var(--f-mono); font-size: var(--fs-s); text-transform: uppercase; letter-spacing: .1em; }
 .nav__index a { color: var(--paper-dim); transition: color .3s; }
 .nav__index a b { font-weight: 500; color: var(--paper); margin-right: 4px; }
