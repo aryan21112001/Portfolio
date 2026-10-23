@@ -25,7 +25,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600;800&family=JetBrains+Mono:wght@400;500&display=swap">
   <link rel="preload" as="image" href="assets/img/portrait.webp">
-  <link rel="stylesheet" href="style.css?v=14">
+  <link rel="stylesheet" href="style.css?v=16">
 
   <script type="application/ld+json">
   {
@@ -43,7 +43,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
   <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js" defer></script>
-  <script src="script.js?v=14" defer></script>
+  <script src="script.js?v=16" defer></script>
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
@@ -315,9 +315,30 @@
           <p class="work__hint mono">Drag the story sideways by scrolling ↓</p>
         </div>
         <div class="work__track">
+          <svg class="viz-defs" width="0" height="0" aria-hidden="true">
+            <defs>
+              <marker id="vz-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 9 5 0 9z" fill="#8FB0FF"/></marker>
+              <pattern id="vz-tiles" width="14" height="14" patternUnits="userSpaceOnUse"><rect width="10" height="10" rx="2" fill="rgba(143,176,255,.26)"/></pattern>
+              <pattern id="vz-tiles-hl" width="14" height="14" patternUnits="userSpaceOnUse"><rect width="10" height="10" rx="2" fill="#8FB0FF"/></pattern>
+            </defs>
+          </svg>
           <article class="case" data-case="visa" data-cursor="view" data-cursor-label="VIEW" tabindex="0" role="button" aria-haspopup="dialog">
             <div class="case__bg"></div>
             <header><span class="mono">01 · VISA</span><span class="mono">2026 — now</span></header>
+            <div class="case__viz" aria-hidden="true">
+              <svg viewBox="0 0 520 170">
+                <text x="0" y="12">TABLEAU</text>
+                <rect x="0" y="24" width="140" height="98" fill="url(#vz-tiles)"/>
+                <text x="0" y="146" class="t-strong">7,000</text><text x="60" y="146">dashboards</text>
+                <path class="ln" d="M156 73H362" marker-end="url(#vz-arrow)"/>
+                <rect class="n" x="190" y="58" width="140" height="30" rx="15"/>
+                <text x="260" y="77" text-anchor="middle" class="t-blue">LLM · YAML</text>
+                <text x="380" y="12">POWER BI</text>
+                <rect x="380" y="45" width="56" height="42" fill="url(#vz-tiles-hl)"/>
+                <rect x="422" y="73" width="10" height="10" rx="2" fill="#C8F23A"/>
+                <text x="380" y="146" class="t-strong">1,200</text><text x="440" y="146">canonical</text>
+              </svg>
+            </div>
             <h3>7,000 dashboards.<br><em class="serif">1,200 that matter.</em></h3>
             <p>Reporting Transformation &amp; BI Rationalization. LLM-led analysis of a 7,000+ dashboard Tableau estate, consolidated into a canonical 1,200 and rebuilt in Power BI by an agent.</p>
             <p class="tags mono">LLMs · Agents · Canonical YAML · Tableau LOD · DAX · Power BI</p>
@@ -325,6 +346,22 @@
           <article class="case" data-case="pheaa" data-cursor="view" data-cursor-label="VIEW" tabindex="0" role="button" aria-haspopup="dialog">
             <div class="case__bg"></div>
             <header><span class="mono">02 · PHEAA</span><span class="mono">2025 — 26</span></header>
+            <div class="case__viz" aria-hidden="true">
+              <svg viewBox="0 0 520 170">
+                <rect class="n" x="0" y="34" width="130" height="58" rx="10"/>
+                <text x="16" y="58" class="t-strong">MAINFRAME</text><text x="16" y="78">legacy</text>
+                <path class="ln" d="M134 63H190" marker-end="url(#vz-arrow)"/>
+                <rect class="n n-hl" x="195" y="34" width="130" height="58" rx="10"/>
+                <text x="211" y="58" class="t-strong">VALIDATE</text><text x="211" y="78">14+ pipelines</text>
+                <circle cx="318" cy="34" r="9" fill="#C8F23A"/><path d="M314 34l3 3 5-6" stroke="#0A0B0E" stroke-width="2" fill="none"/>
+                <path class="ln" d="M329 63H385" marker-end="url(#vz-arrow)"/>
+                <rect class="n" x="390" y="34" width="130" height="58" rx="10"/>
+                <text x="406" y="58" class="t-strong">AWS</text><text x="406" y="78">GrantUs</text>
+                <text x="0" y="140" class="t-blue">500K+ students</text>
+                <text x="170" y="140" class="t-blue">1.6M+ disbursements</text>
+                <text x="390" y="140" class="t-lime">90 days</text>
+              </svg>
+            </div>
             <h3>50× capacity.<br><em class="serif">100% accurate. Early.</em></h3>
             <p>Student Disbursement Data Processing. The migration and validation tooling that helped PHEAA retire its mainframe, a transformation worth an estimated $20M a year.</p>
             <p class="tags mono">PySpark · Pandas · AWS · SDV · Data Quality</p>
@@ -332,6 +369,18 @@
           <article class="case" data-case="intuit" data-cursor="view" data-cursor-label="VIEW" tabindex="0" role="button" aria-haspopup="dialog">
             <div class="case__bg"></div>
             <header><span class="mono">03 · Intuit</span><span class="mono">2025</span></header>
+            <div class="case__viz" aria-hidden="true">
+              <svg viewBox="0 0 520 170">
+                <text x="0" y="12">PRICE</text>
+                <rect x="0" y="62" width="520" height="34" fill="rgba(47,91,234,.22)"/>
+                <text x="520" y="56" text-anchor="end" class="t-blue">recommended range</text>
+                <path d="M0 132 L60 118 L110 126 L170 92 L230 104 L290 70 L350 84 L410 76 L470 50 L520 58" fill="none" stroke="#8FB0FF" stroke-width="1.6"/>
+                <circle cx="350" cy="84" r="6" fill="#C8F23A"/>
+                <text x="362" y="118" class="t-lime">rec. price</text>
+                <path d="M0 150H520" stroke="rgba(242,238,230,.15)"/>
+                <text x="0" y="166">transactions · demand · customers</text>
+              </svg>
+            </div>
             <h3>Pricing,<br><em class="serif">made explainable.</em></h3>
             <p>Price Recommendation &amp; Forecasting. Feature pipelines from transactional, demand and customer data, feeding a production engine.</p>
             <p class="tags mono">Databricks · Delta Lake · PySpark · Feature Engineering</p>
@@ -339,6 +388,18 @@
           <article class="case" data-case="fab" data-cursor="view" data-cursor-label="VIEW" tabindex="0" role="button" aria-haspopup="dialog">
             <div class="case__bg"></div>
             <header><span class="mono">04 · First Abu Dhabi Bank</span><span class="mono">2025</span></header>
+            <div class="case__viz" aria-hidden="true">
+              <svg viewBox="0 0 520 170">
+                <rect class="n" x="0" y="10" width="130" height="32" rx="16"/><text x="65" y="31" text-anchor="middle" class="t-strong">T24</text>
+                <rect class="n" x="0" y="66" width="130" height="32" rx="16"/><text x="65" y="87" text-anchor="middle" class="t-strong">LIGHTHOUSE</text>
+                <rect class="n" x="0" y="122" width="130" height="32" rx="16"/><text x="65" y="143" text-anchor="middle" class="t-strong">GCN</text>
+                <path class="ln" d="M134 26C250 26 250 82 356 82" marker-end="url(#vz-arrow)"/>
+                <path class="ln" d="M134 82H356" marker-end="url(#vz-arrow)"/>
+                <path class="ln" d="M134 138C250 138 250 82 356 82" marker-end="url(#vz-arrow)"/>
+                <rect class="n n-hl" x="360" y="54" width="160" height="56" rx="10"/>
+                <text x="376" y="78" class="t-strong">DELTA LAKE</text><text x="376" y="98">Databricks</text>
+              </svg>
+            </div>
             <h3>T24 to<br><em class="serif">the lakehouse.</em></h3>
             <p>Core-banking migration. Lighthouse, T24 and GCN moved to Databricks with reusable, parameterized ingestion.</p>
             <p class="tags mono">Databricks · PySpark · Control tables · Orchestration</p>
@@ -346,6 +407,19 @@
           <article class="case" data-case="ga" data-cursor="view" data-cursor-label="VIEW" tabindex="0" role="button" aria-haspopup="dialog">
             <div class="case__bg"></div>
             <header><span class="mono">05 · General Atlantic</span><span class="mono">2024 — 25</span></header>
+            <div class="case__viz" aria-hidden="true">
+              <svg viewBox="0 0 520 170">
+                <rect class="n" x="0" y="34" width="140" height="58" rx="10"/>
+                <text x="16" y="58" class="t-strong">TALEND</text><text x="16" y="78">legacy ETL</text>
+                <path class="ln" d="M144 63H222" marker-end="url(#vz-arrow)"/>
+                <rect class="n n-hl" x="226" y="34" width="150" height="58" rx="10"/>
+                <text x="242" y="58" class="t-strong">DATABRICKS</text><text x="242" y="78">Delta Lake</text>
+                <text x="420" y="44" class="t-lime">✓</text><text x="438" y="44">lint</text>
+                <text x="420" y="68" class="t-lime">✓</text><text x="438" y="68">test</text>
+                <text x="420" y="92" class="t-lime">✓</text><text x="438" y="92">deploy</text>
+                <text x="0" y="140" class="t-blue">metadata-driven ingestion · Git CI/CD</text>
+              </svg>
+            </div>
             <h3>Legacy ETL,<br><em class="serif">cloud-native.</em></h3>
             <p>Talend → Databricks. Metadata-driven ingestion for financial reporting, with Git-based CI/CD and PR reviews.</p>
             <p class="tags mono">Talend · Databricks · Delta Lake · CI/CD</p>
