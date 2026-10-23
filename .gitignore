@@ -1,0 +1,8 @@
+# Only the static site is published; working files stay local.
+Media/
+.claude/
+tools/
+BUILD-PLAN.md
+.DS_Store
+assets/ref/
+assets/video/
