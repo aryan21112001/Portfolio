@@ -487,8 +487,9 @@
     let opener = null, origin = '50% 50%';
 
     // shared full-screen window for case studies and award certificates
-    const show = (node, from, x, y) => {
+    const show = (node, from, x, y, dark = false) => {
       opener = from;
+      overlay.classList.toggle('overlay--dark', dark);
       content.innerHTML = '';
       content.appendChild(node);
       origin = `${(x / innerWidth) * 100}% ${(y / innerHeight) * 100}%`;
@@ -500,13 +501,11 @@
       close.focus();
     };
     const open = (key, from, x, y) => show(tpl.querySelector(`[data-case="${key}"]`).cloneNode(true), from, x, y);
-    const showCert = btn => {
-      const fig = document.createElement('figure');
-      fig.className = 'overlay__cert';
-      fig.innerHTML = `<img src="${btn.dataset.cert}" alt="${btn.dataset.certLabel}" width="1600" height="902"><figcaption class="mono" id="overlay-title">${btn.dataset.certLabel}</figcaption>`;
-      const r = btn.getBoundingClientRect();
-      show(fig, btn, r.left + r.width / 2, r.top + r.height / 2);
-    };
+    const awards = $('#awards');
+    awards?.addEventListener('click', e => {
+      const node = $('#awards-detail').content.firstElementChild.cloneNode(true);
+      show(node, awards, e.clientX || innerWidth / 2, e.clientY || innerHeight / 2, true);
+    });
     const shut = () => {
       gsap.to(overlay, {
         clipPath: `circle(0% at ${origin})`, duration: reduced ? 0 : 0.7, ease: 'expo.inOut',
@@ -524,7 +523,6 @@
         }
       });
     });
-    $$('[data-cert]').forEach(btn => btn.addEventListener('click', () => showCert(btn)));
     close.addEventListener('click', shut);
     overlay.addEventListener('keydown', e => {
       if (e.key === 'Escape') shut();

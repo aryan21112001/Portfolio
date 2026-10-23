@@ -25,7 +25,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600;800&family=JetBrains+Mono:wght@400;500&display=swap">
   <link rel="preload" as="image" href="assets/img/portrait.webp">
-  <link rel="stylesheet" href="style.css?v=23">
+  <link rel="stylesheet" href="style.css?v=24">
 
   <script type="application/ld+json">
   {
@@ -43,7 +43,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
   <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js" defer></script>
-  <script src="script.js?v=23" defer></script>
+  <script src="script.js?v=24" defer></script>
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
@@ -513,18 +513,35 @@
       </div>
     </template>
 
+    <template id="awards-detail">
+      <div class="certs">
+        <p class="mono">Tredence · 2026</p>
+        <h3 id="overlay-title">Pat on the Back awards</h3>
+        <div class="certs__grid">
+          <figure><a href="assets/img/certs/potb-2026-04-16.webp" target="_blank" rel="noopener"><img src="assets/img/certs/potb-2026-04-16.webp" alt="Pat on the Back certificate, 16 April 2026" width="1600" height="902"></a><figcaption class="mono">16 April 2026</figcaption></figure>
+          <figure><a href="assets/img/certs/potb-2026-06-12.webp" target="_blank" rel="noopener"><img src="assets/img/certs/potb-2026-06-12.webp" alt="Pat on the Back certificate, 12 June 2026" width="1470" height="834"></a><figcaption class="mono">12 June 2026</figcaption></figure>
+          <figure><a href="assets/img/certs/potb-2026-06-26.webp" target="_blank" rel="noopener"><img src="assets/img/certs/potb-2026-06-26.webp" alt="Pat on the Back certificate, 26 June 2026" width="1600" height="902"></a><figcaption class="mono">26 June 2026</figcaption></figure>
+        </div>
+        <p class="certs__note">"For demonstrating exemplary performance and a job well done that has created a significant impact on project delivery, client satisfaction and process efficiency."</p>
+      </div>
+    </template>
+
     <!-- ============ 08 RECOGNITION ============ -->
     <section class="kind section" id="recognition">
       <p class="label mono"><b>06</b> — Kind words</p>
-      <div class="awards" id="awards" data-reveal>
+      <button class="awards-card" type="button" id="awards" aria-haspopup="dialog" data-cursor="view" data-cursor-label="OPEN" data-reveal>
         <span class="awards__medal" aria-hidden="true"></span>
-        <p class="mono">Pat on the Back awards, Tredence</p>
-        <ul class="awards__dates mono">
-          <li><button type="button" data-cert="assets/img/certs/potb-2026-04-16.webp" data-cert-label="Pat on the Back certificate, 16 April 2026" aria-haspopup="dialog">Apr 2026 <span aria-hidden="true">↗</span></button></li>
-          <li><button type="button" data-cert="assets/img/certs/potb-2026-06-12.webp" data-cert-label="Pat on the Back certificate, 12 June 2026" aria-haspopup="dialog">Jun 2026 <span aria-hidden="true">↗</span></button></li>
-          <li><button type="button" data-cert="assets/img/certs/potb-2026-06-26.webp" data-cert-label="Pat on the Back certificate, 26 June 2026" aria-haspopup="dialog">Jun 2026 <span aria-hidden="true">↗</span></button></li>
-        </ul>
-      </div>
+        <span class="awards-card__text">
+          <strong>Pat on the Back awards</strong>
+          <span class="mono">Tredence · three in 2026</span>
+        </span>
+        <span class="awards-card__thumbs" aria-hidden="true">
+          <img src="assets/img/certs/potb-2026-04-16.webp" alt="" width="1600" height="902" loading="lazy" decoding="async">
+          <img src="assets/img/certs/potb-2026-06-12.webp" alt="" width="1470" height="834" loading="lazy" decoding="async">
+          <img src="assets/img/certs/potb-2026-06-26.webp" alt="" width="1600" height="902" loading="lazy" decoding="async">
+        </span>
+        <span class="awards-card__cta mono">View certificates <span aria-hidden="true">↗</span></span>
+      </button>
 
       <p class="kind__intro serif" data-reveal>A few notes from people I've worked with.</p>
 
