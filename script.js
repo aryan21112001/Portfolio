@@ -193,6 +193,7 @@
     const vars = { '--ry': '0deg', '--tilt': '-8deg', '--spread': 0.45, '--vis': 0.18, '--pz': '-520px', '--co': 1, '--so': 0, '--sb': '14px', '--sx': '0px', '--sy': '0px', '--sz': '0px', '--horizon': 0.8 };
     gsap.set(rig, vars);
     gsap.set('[data-act3]', { autoAlpha: 0, y: 40 });
+    gsap.set('.act--3', { '--scrim': 0 });
     gsap.set('.act2-line', { autoAlpha: 0, y: 50 });
 
     const tl = gsap.timeline({
@@ -240,6 +241,7 @@
         ? { '--sy': () => -innerHeight * 0.14 + 'px', duration: 16, ease: 'power2.inOut' }
         : { '--sx': () => innerWidth * 0.2 + 'px', duration: 16, ease: 'power2.inOut' }, 72)
       .to(rig, { '--horizon': 0.55, duration: 20 }, 70)
+      .to('.act--3', { '--scrim': 1, duration: 8 }, 72)
       .to('[data-act3]', { autoAlpha: 1, y: 0, duration: 8, stagger: 2, ease: 'power2.out' }, 76);
 
     // real-footage scrub rides the same 0–92 span
