@@ -510,7 +510,7 @@ ul, ol { list-style: none; }
 .quote__aside .mono { font-style: normal; color: var(--paper-dim); text-transform: none; letter-spacing: .03em; }
 .quote footer { margin-top: auto; color: var(--paper-dim); text-transform: none; letter-spacing: .03em; }
 
-.awards { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; margin-top: clamp(24px, 3.5vh, 40px); color: var(--paper-dim); }
+.awards { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; margin-bottom: clamp(32px, 5vh, 56px); color: var(--paper-dim); }
 .awards__medal { width: 22px; height: 22px; border-radius: 50%; flex: none; background: radial-gradient(circle, var(--ink) 50%, transparent 52%), conic-gradient(from 200deg, #f4e3b5, #b8913f, #f6e7bf, #9c7a30, #f4e3b5); }
 .awards .mono { text-transform: none; letter-spacing: .04em; }
 .awards__dates { display: flex; flex-wrap: wrap; gap: 8px; }
