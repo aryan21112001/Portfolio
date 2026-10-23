@@ -336,12 +336,6 @@ ul, ol { list-style: none; }
   grid-column: 1 / 7; grid-row: 3; margin-top: clamp(40px, 8vh, 96px);
   position: relative; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 16px; max-width: 560px;
 }
-.mission__rig::before {
-  content: ""; position: absolute; left: 22px; right: 22px; top: 58%; height: 1px; z-index: -1;
-  background: repeating-linear-gradient(90deg, rgba(143, 176, 255, .45) 0 6px, transparent 6px 12px);
-  background-size: 24px 1px; animation: flow 1.6s linear infinite;
-}
-@keyframes flow { to { background-position: 24px 0; } }
 .mission__rig-head { grid-column: 1 / -1; display: flex; align-items: center; gap: 10px; color: var(--paper-dim); margin-bottom: 4px; }
 .mission__rig-head i { width: 7px; height: 7px; border-radius: 50%; background: var(--lime); animation: ping 2s infinite; }
 .glass-chip {
@@ -568,8 +562,15 @@ ul, ol { list-style: none; }
 }
 
 @media (max-width: 767px) {
-  :root { --section: clamp(64px, 9vh, 96px); }
-  .section-head { margin-bottom: 40px; }
+  :root { --section: 32px; }
+  .section-head { margin-bottom: 28px; }
+  .label { margin-bottom: 20px; }
+  .stats { padding: 32px var(--pad); }
+  .cta { min-height: 0; padding-top: 48px; padding-bottom: 40px; }
+  .kind .h-xl { margin-bottom: 32px; }
+  .awards { margin-bottom: 32px; }
+  .mission__aside { margin-top: 28px; }
+  .footer { padding-top: 32px; }
   .nav { padding: 16px; }
   .nav__cta { padding: 8px 14px; }
 

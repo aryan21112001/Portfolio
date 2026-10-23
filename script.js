@@ -408,8 +408,8 @@
       yPercent: 40, autoAlpha: 0, rotation: i => (i % 2 ? 4 : -4), duration: 1, stagger: 0.12, ease: 'power3.out',
       scrollTrigger: { trigger: '.mission__rig', start: 'top 85%' },
     });
-    // gentle parallax: the staggered column drifts a little faster
-    gsap.to(chips, { y: i => (i % 2 ? -36 : -14), ease: 'none', scrollTrigger: { trigger: '.mission__rig', start: 'top bottom', end: 'bottom top', scrub: true } });
+    // gentle parallax on wider screens: the staggered column drifts a little faster
+    if (!isMobile()) gsap.to(chips, { y: i => (i % 2 ? -36 : -14), ease: 'none', scrollTrigger: { trigger: '.mission__rig', start: 'top bottom', end: 'bottom top', scrub: true } });
   }
 
   /* ---------------- Generic reveals ---------------- */
