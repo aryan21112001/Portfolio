@@ -328,7 +328,7 @@ ul, ol { list-style: none; }
 .mission { display: grid; grid-template-columns: repeat(12, 1fr); column-gap: var(--gutter); overflow: hidden; }
 .mission .label { grid-column: 1 / -1; }
 .mission__statement { grid-column: 1 / 12; font-size: clamp(34px, 5.1vw, 96px); font-weight: 600; letter-spacing: -.04em; line-height: 1.02; }
-.mission__statement .split-word { opacity: .14; transition: none; }
+.mission__statement .split-word { opacity: .14; }
 .mission__aside { grid-column: 8 / 13; grid-row: 3; align-self: end; margin-top: clamp(40px, 8vh, 96px); color: var(--paper-dim); font-size: clamp(18px, 1.5vw, 24px); }
 .mission__aside em { color: var(--paper); font-size: 1.15em; }
 
@@ -472,8 +472,8 @@ ul, ol { list-style: none; }
 .case[data-case="fab"] .case__bg { filter: hue-rotate(12deg) saturate(.8); }
 .case[data-case="ga"] .case__bg { filter: saturate(.6); }
 .case:hover .case__bg { transform: scale(1.05) translate(-1%, 1%); }
-.case > *:not(.case__bg) { position: relative; z-index: 1; }
-.case header { position: absolute !important; top: clamp(24px, 3vw, 48px); left: clamp(24px, 3vw, 48px); right: clamp(24px, 3vw, 48px); display: flex; justify-content: space-between; color: var(--paper-dim); }
+.case > :not(.case__bg, header) { position: relative; z-index: 1; }
+.case header { position: absolute; z-index: 1; top: clamp(24px, 3vw, 48px); left: clamp(24px, 3vw, 48px); right: clamp(24px, 3vw, 48px); display: flex; justify-content: space-between; color: var(--paper-dim); }
 .case h3 { font-size: clamp(44px, 6.4vw, 120px); font-weight: 700; letter-spacing: -.05em; line-height: .9; }
 .case h3 em { color: var(--cornflower); font-weight: 400; }
 .case p:not(.tags) { max-width: 52ch; color: var(--paper-dim); }

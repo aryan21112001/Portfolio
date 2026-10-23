@@ -15,7 +15,6 @@
   // If the CDN scripts failed, leave a readable static page.
   if (!window.gsap || !window.ScrollTrigger) {
     $('.preloader')?.remove();
-    document.documentElement.classList.add('no-gsap');
     return;
   }
   gsap.registerPlugin(ScrollTrigger);
@@ -52,7 +51,6 @@
     gsap.ticker.add(t => lenis.raf(t * 1000));
     gsap.ticker.lagSmoothing(0);
     lenis.stop();
-    window.lenis = lenis; // handy for debugging from the console
   }
   const scrollToTarget = (target) => {
     if (lenis) lenis.scrollTo(target, { offset: target === 0 ? 0 : -90, duration: 1.6, easing: t => (t === 1 ? 1 : 1 - Math.pow(2, -10 * t)) });
@@ -330,8 +328,7 @@
     fitWordmark();
     wordmarkReveal();
     easterEggs();
-    // Pointer effects: switch on whenever a fine pointer is (or becomes) available,
-    // e.g. after a window was resized out of a touch/mobile emulation.
+    // Pointer effects switch on whenever a fine pointer is (or becomes) available.
     if (!reduced) {
       const fine = matchMedia('(pointer: fine)');
       let pointerFx = false;
