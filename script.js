@@ -544,17 +544,18 @@
 
   /* ---------------- Cursor ---------------- */
   function cursor() {
-    const root = $('.cursor'), dot = $('.cursor__dot'), ring = $('.cursor__ring'), label = $('.cursor__ring em');
+    // The native cursor stays; a faint ring trails it and a soft cobalt spotlight drifts behind.
+    const root = $('.cursor'), glow = $('.cursor__glow'), ring = $('.cursor__ring'), label = $('.cursor__ring em');
     document.documentElement.classList.add('has-cursor');
-    const pos = { x: innerWidth / 2, y: innerHeight / 2 }, ringPos = { ...pos };
-    addEventListener('pointermove', e => {
-      pos.x = e.clientX; pos.y = e.clientY;
-      dot.style.transform = `translate3d(${pos.x}px,${pos.y}px,0)`;
-    }, { passive: true });
+    const pos = { x: innerWidth / 2, y: innerHeight / 2 }, ringPos = { ...pos }, glowPos = { ...pos };
+    addEventListener('pointermove', e => { pos.x = e.clientX; pos.y = e.clientY; }, { passive: true });
     gsap.ticker.add(() => {
-      ringPos.x += (pos.x - ringPos.x) * 0.18;
-      ringPos.y += (pos.y - ringPos.y) * 0.18;
+      ringPos.x += (pos.x - ringPos.x) * 0.15;
+      ringPos.y += (pos.y - ringPos.y) * 0.15;
+      glowPos.x += (pos.x - glowPos.x) * 0.08;
+      glowPos.y += (pos.y - glowPos.y) * 0.08;
       ring.style.transform = `translate3d(${ringPos.x}px,${ringPos.y}px,0)`;
+      glow.style.transform = `translate3d(${glowPos.x}px,${glowPos.y}px,0)`;
     });
     document.addEventListener('pointerover', e => {
       const t = e.target.closest('[data-cursor], a, button, summary');
