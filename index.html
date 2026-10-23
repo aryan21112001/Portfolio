@@ -25,7 +25,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600;800&family=JetBrains+Mono:wght@400;500&display=swap">
   <link rel="preload" as="image" href="assets/img/portrait.webp">
-  <link rel="stylesheet" href="style.css?v=20">
+  <link rel="stylesheet" href="style.css?v=21">
 
   <script type="application/ld+json">
   {
@@ -43,7 +43,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
   <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js" defer></script>
-  <script src="script.js?v=20" defer></script>
+  <script src="script.js?v=21" defer></script>
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
@@ -516,62 +516,36 @@
     <!-- ============ 08 RECOGNITION ============ -->
     <section class="kind section" id="recognition">
       <p class="label mono"><b>06</b> — Kind words</p>
-      <h2 class="h-xl" data-lines>Three <em class="serif">Pat-on-the-Back</em> awards.<br>More than a few thank-you notes.</h2>
-
-      <div class="awards" id="awards">
-        <article class="award" data-reveal>
-          <span class="award__medal" aria-hidden="true"><i>Pat on<br>the back</i></span>
-          <p class="mono">Pat on the Back · Tredence</p>
-          <h3>16 Apr 2026</h3>
-        </article>
-        <article class="award" data-reveal>
-          <span class="award__medal" aria-hidden="true"><i>Pat on<br>the back</i></span>
-          <p class="mono">Pat on the Back · Tredence</p>
-          <h3>12 Jun 2026</h3>
-        </article>
-        <article class="award" data-reveal>
-          <span class="award__medal" aria-hidden="true"><i>Pat on<br>the back</i></span>
-          <p class="mono">Pat on the Back · Tredence</p>
-          <h3>26 Jun 2026</h3>
-        </article>
-        <p class="awards__citation" data-reveal>"For demonstrating exemplary performance and a job well done that has created a significant impact on project delivery, client satisfaction and process efficiency." <span class="mono">— Prashanth Subbanna, Senior Director</span></p>
-      </div>
+      <p class="kind__intro serif" data-reveal>A few notes from people I've worked with.</p>
 
       <div class="quotes">
-        <blockquote class="quote quote--client" id="client-quote" data-reveal>
-          <p class="quote__rating mono"><span aria-hidden="true">★★★★★</span> 5/5 · Greatly exceeded expectations</p>
-          <p>"Their communication and development expertise resulted in a <mark>successful data migration</mark>."</p>
-          <p class="quote__aside">"Once the project got rolling, the Tredence team was great."</p>
-          <footer class="mono">Stephen Marone, Head of IT, PHEAA · client satisfaction survey</footer>
+        <blockquote class="quote" data-reveal>
+          <p>"Their communication and development expertise resulted in a successful data migration."</p>
+          <footer class="mono">Head of IT, PHEAA · client survey</footer>
         </blockquote>
         <blockquote class="quote" data-reveal>
-          <p>"Stephen Marone (Head of IT) has expressed strong confidence in us by providing <mark>All Star rating (5/5)</mark>… outstanding contributions from the technical team at offshore — Pallabi, Aryan, Guru and Vineet. Their commitment, collaboration and execution excellence were critical to this achievement."</p>
-          <footer class="mono">Tredence delivery leadership · PHEAA, Mainframe → AWS</footer>
-        </blockquote>
-        <blockquote class="quote quote--play" data-reveal>
-          <p>"<s>'You guys are failing badly'</s> + no sleep for 3 days for the whole team = <mark>'Great work. Really enjoyed the meeting.'</mark>"</p>
-          <p class="quote__aside">"Our pod leads really … did a great job: Swarnendu, Vaibhav, Aryan, Mayank, Tushar." <span class="mono">— Arpan Dasgupta</span></p>
-          <p class="quote__aside">"A phenomenal turn-around and an incredible display of grit and leadership from the entire team." <span class="mono">— Nishant Sinha, VP, Head of Strategic Accounts, BFSI</span></p>
-          <p class="quote__aside">"This is great news team." <span class="mono">— Shub Bhowmick, CEO &amp; Co-founder</span></p>
-          <footer class="mono">The VISA turnaround · Tredence leadership email thread</footer>
+          <p>"<s>'You guys are failing badly'</s> + no sleep for 3 days for the whole team = 'Great work. Really enjoyed the meeting.'"</p>
+          <footer class="mono">CBO, Tredence · on the VISA turnaround</footer>
         </blockquote>
         <blockquote class="quote" data-reveal>
-          <p>"Wanted to give a shout out to Aryan Prasad … He used an <mark>innovative approach</mark> to prepare a good dataset as our testing environment." <span class="mono quote__by">— Sanat Sahu</span></p>
-          <p class="quote__aside">"Fantastic work Aryan… keep raising the bar." <span class="mono">— Promit Das</span></p>
-          <footer class="mono">BFSI vertical team channel · SDV synthetic data for PHEAA</footer>
+          <p>"He used an innovative approach to prepare a good dataset as our testing environment."</p>
+          <footer class="mono">Director, Tredence · on the SDV test data</footer>
         </blockquote>
         <blockquote class="quote" data-reveal>
-          <p>"Thanks for all your efforts… Keep up the good work. And frankly, I know how both of you operate, so the appreciation from Vamsi is not a surprise to me. <mark>The expectation was always high anyway!</mark>"</p>
-          <footer class="mono">Prashanth Subbanna, Senior Director · after client appreciation</footer>
+          <p>"Keep up the good work… The expectation was always high anyway!"</p>
+          <footer class="mono">Senior Director, Tredence</footer>
         </blockquote>
       </div>
 
-      <ul class="chips mono" aria-label="Highlights">
-        <li><a href="#awards">3× Pat on the Back <span aria-hidden="true">↑</span></a></li>
-        <li><a href="#client-quote">5/5 PHEAA client survey <span aria-hidden="true">↑</span></a></li>
-        <li><button type="button" data-open-case="pheaa" aria-haspopup="dialog">Ahead-of-schedule delivery <span aria-hidden="true">↗</span></button></li>
-        <li><button type="button" data-open-case="visa" aria-haspopup="dialog">60%+ architecture adopted <span aria-hidden="true">↗</span></button></li>
-      </ul>
+      <div class="awards" id="awards" data-reveal>
+        <span class="awards__medal" aria-hidden="true"></span>
+        <p class="mono">Pat on the Back award, Tredence</p>
+        <ul class="awards__dates mono">
+          <li><button type="button" data-cert="assets/img/certs/potb-2026-04-16.webp" data-cert-label="Pat on the Back certificate, 16 April 2026" aria-haspopup="dialog">Apr 2026 <span aria-hidden="true">↗</span></button></li>
+          <li><button type="button" data-cert="assets/img/certs/potb-2026-06-12.webp" data-cert-label="Pat on the Back certificate, 12 June 2026" aria-haspopup="dialog">Jun 2026 <span aria-hidden="true">↗</span></button></li>
+          <li><button type="button" data-cert="assets/img/certs/potb-2026-06-26.webp" data-cert-label="Pat on the Back certificate, 26 June 2026" aria-haspopup="dialog">Jun 2026 <span aria-hidden="true">↗</span></button></li>
+        </ul>
+      </div>
     </section>
 
     <!-- ============ 09 CTA ============ -->

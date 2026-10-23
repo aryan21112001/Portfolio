@@ -486,10 +486,11 @@
     const tpl = $('#case-details').content;
     let opener = null, origin = '50% 50%';
 
-    const open = (key, from, x, y) => {
+    // shared full-screen window for case studies and award certificates
+    const show = (node, from, x, y) => {
       opener = from;
       content.innerHTML = '';
-      content.appendChild(tpl.querySelector(`[data-case="${key}"]`).cloneNode(true));
+      content.appendChild(node);
       origin = `${(x / innerWidth) * 100}% ${(y / innerHeight) * 100}%`;
       overlay.hidden = false;
       overlay.scrollTop = 0;
@@ -497,6 +498,14 @@
       gsap.fromTo(overlay, { clipPath: `circle(0% at ${origin})` }, { clipPath: `circle(150% at ${origin})`, duration: reduced ? 0 : 0.9, ease: 'expo.inOut' });
       gsap.from(content.children[0].children, { y: 40, autoAlpha: 0, duration: 0.8, stagger: 0.06, delay: reduced ? 0 : 0.4, ease: 'power3.out' });
       close.focus();
+    };
+    const open = (key, from, x, y) => show(tpl.querySelector(`[data-case="${key}"]`).cloneNode(true), from, x, y);
+    const showCert = btn => {
+      const fig = document.createElement('figure');
+      fig.className = 'overlay__cert';
+      fig.innerHTML = `<img src="${btn.dataset.cert}" alt="${btn.dataset.certLabel}" width="1600" height="902"><figcaption class="mono" id="overlay-title">${btn.dataset.certLabel}</figcaption>`;
+      const r = btn.getBoundingClientRect();
+      show(fig, btn, r.left + r.width / 2, r.top + r.height / 2);
     };
     const shut = () => {
       gsap.to(overlay, {
@@ -515,11 +524,7 @@
         }
       });
     });
-    // highlight chips open the case that backs them up
-    $$('[data-open-case]').forEach(btn => btn.addEventListener('click', () => {
-      const r = btn.getBoundingClientRect();
-      open(btn.dataset.openCase, btn, r.left + r.width / 2, r.top + r.height / 2);
-    }));
+    $$('[data-cert]').forEach(btn => btn.addEventListener('click', () => showCert(btn)));
     close.addEventListener('click', shut);
     overlay.addEventListener('keydown', e => {
       if (e.key === 'Escape') shut();
