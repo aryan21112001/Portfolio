@@ -25,7 +25,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600;800&family=JetBrains+Mono:wght@400;500&display=swap">
   <link rel="preload" as="image" href="assets/img/portrait.webp">
-  <link rel="stylesheet" href="style.css?v=24">
+  <link rel="stylesheet" href="style.css?v=26">
 
   <script type="application/ld+json">
   {
@@ -36,6 +36,7 @@
     "worksFor": { "@type": "Organization", "name": "Tredence Analytics Solutions" },
     "alumniOf": { "@type": "CollegeOrUniversity", "name": "Kalinga Institute of Industrial Technology" },
     "email": "mailto:aryanap2001@gmail.com",
+    "telephone": "+91-9933113346",
     "sameAs": ["https://www.linkedin.com/in/aryan-prasad-b3323a24a"]
   }
   </script>
@@ -43,7 +44,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
   <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js" defer></script>
-  <script src="script.js?v=24" defer></script>
+  <script src="script.js?v=26" defer></script>
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
@@ -83,7 +84,7 @@
       <a href="#toolkit"><b>04</b> Toolkit</a>
       <a href="#work"><b>05</b> Work</a>
     </nav>
-    <a class="nav__cta" href="https://www.linkedin.com/in/aryan-prasad-b3323a24a" target="_blank" rel="noopener" data-magnetic>Connect <span aria-hidden="true">↗</span></a>
+    <button class="nav__cta" type="button" data-contact data-magnetic aria-haspopup="dialog">Contact <span aria-hidden="true">↗</span></button>
   </header>
 
   <main id="main">
@@ -134,7 +135,7 @@
         <div class="act act--3">
           <h2 class="hello serif" data-act3>Hey, I'm Aryan.</h2>
           <p class="hello-sub" data-act3>I turn messy enterprise data into systems that run themselves, and I like doing it <em class="serif">with</em> people, not just for them.</p>
-          <a class="link-arrow mono" data-act3 href="https://www.linkedin.com/in/aryan-prasad-b3323a24a" target="_blank" rel="noopener">Connect on LinkedIn ↗</a>
+          <button class="link-arrow mono" type="button" data-act3 data-contact aria-haspopup="dialog">Get in touch ↗</button>
         </div>
       </div>
     </section>
@@ -526,6 +527,19 @@
       </div>
     </template>
 
+    <template id="contact-detail">
+      <div class="contact">
+        <p class="mono">Get in touch</p>
+        <h3 id="overlay-title">Let's <em class="serif">talk</em>.</h3>
+        <ul class="contact__list">
+          <li><a href="https://www.linkedin.com/in/aryan-prasad-b3323a24a" target="_blank" rel="noopener"><span class="mono">LinkedIn</span><strong>aryan-prasad-b3323a24a</strong><i aria-hidden="true">↗</i></a></li>
+          <li><a href="mailto:aryanap2001@gmail.com"><span class="mono">Email</span><strong>aryanap2001@gmail.com</strong><i aria-hidden="true">↗</i></a><button class="contact__copy mono" type="button" data-copy="aryanap2001@gmail.com" aria-label="Copy email address">Copy</button></li>
+          <li><a href="tel:+919933113346"><span class="mono">Phone</span><strong>+91 99331 13346</strong><i aria-hidden="true">↗</i></a><button class="contact__copy mono" type="button" data-copy="+91 99331 13346" aria-label="Copy phone number">Copy</button></li>
+        </ul>
+        <p class="contact__note">Open to conversations about AI engineering, data platforms and forward-deployed roles.</p>
+      </div>
+    </template>
+
     <!-- ============ 08 RECOGNITION ============ -->
     <section class="kind section" id="recognition">
       <p class="label mono"><b>06</b> — Kind words</p>
@@ -578,11 +592,11 @@
       <p class="label mono">07 — Next</p>
       <h2 class="cta__title" data-lines>Let's build something<br>that <em class="serif">thinks</em>.</h2>
       <p class="cta__sub" data-reveal>Open to conversations about AI engineering, data platforms and forward-deployed roles.</p>
-      <a class="btn" href="https://www.linkedin.com/in/aryan-prasad-b3323a24a" target="_blank" rel="noopener" data-magnetic>
+      <button class="btn" type="button" data-contact data-magnetic aria-haspopup="dialog">
         <span class="btn__fill" aria-hidden="true"></span>
-        <span class="btn__label">Connect on LinkedIn ↗</span>
-      </a>
-      <p class="cta__alt mono">or say hello → <a href="mailto:aryanap2001@gmail.com">aryanap2001@gmail.com</a></p>
+        <span class="btn__label">Get in touch ↗</span>
+      </button>
+      <p class="cta__alt mono">LinkedIn · Email · Phone</p>
     </section>
   </main>
 
@@ -591,8 +605,7 @@
     <div class="footer__row mono">
       <span>© 2026 Aryan Prasad</span>
       <button class="clock" type="button" aria-label="Local time in India">IST <span data-clock>--:--:--</span></button>
-      <a href="https://www.linkedin.com/in/aryan-prasad-b3323a24a" target="_blank" rel="noopener">LinkedIn ↗</a>
-      <a href="mailto:aryanap2001@gmail.com">Email ↗</a>
+      <button type="button" data-contact aria-haspopup="dialog">Get in touch ↗</button>
       <a href="#top">Back to top ↑</a>
     </div>
     <p class="footer__sign mono">Built with HTML, CSS, vanilla JS, and a lot of PySpark energy.</p>

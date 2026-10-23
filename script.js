@@ -501,6 +501,15 @@
       close.focus();
     };
     const open = (key, from, x, y) => show(tpl.querySelector(`[data-case="${key}"]`).cloneNode(true), from, x, y);
+    const centreOf = el => { const r = el.getBoundingClientRect(); return [r.left + r.width / 2, r.top + r.height / 2]; };
+    $$('[data-contact]').forEach(btn => btn.addEventListener('click', () => {
+      show($('#contact-detail').content.firstElementChild.cloneNode(true), btn, ...centreOf(btn), true);
+    }));
+    content.addEventListener('click', e => {
+      const btn = e.target.closest('[data-copy]');
+      if (!btn) return;
+      navigator.clipboard?.writeText(btn.dataset.copy).then(() => say('Copied ' + btn.dataset.copy), () => say(btn.dataset.copy));
+    });
     const awards = $('#awards');
     awards?.addEventListener('click', e => {
       const node = $('#awards-detail').content.firstElementChild.cloneNode(true);
@@ -616,13 +625,15 @@
   }
 
   /* ---------------- Easter eggs ---------------- */
+  let toastTimer;
+  function say(msg) {
+    const toast = $('.toast');
+    toast.textContent = msg; toast.classList.add('is-on');
+    clearTimeout(toastTimer); toastTimer = setTimeout(() => toast.classList.remove('is-on'), 2600);
+  }
+
   function easterEggs() {
-    const toast = $('.toast'), grain = $('.grain');
-    let toastTimer;
-    const say = msg => {
-      toast.textContent = msg; toast.classList.add('is-on');
-      clearTimeout(toastTimer); toastTimer = setTimeout(() => toast.classList.remove('is-on'), 2600);
-    };
+    const grain = $('.grain');
 
     let buf = '';
     addEventListener('keydown', e => {
