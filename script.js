@@ -404,7 +404,13 @@
       opacity: 1, stagger: 0.1, ease: 'none',
       scrollTrigger: { trigger: '.mission__statement', start: 'top 78%', end: 'bottom 45%', scrub: true },
     });
-    gsap.to('.glass-chip--mission', { yPercent: -60, rotate: 3, ease: 'none', scrollTrigger: { trigger: '.mission', scrub: true } });
+    const chips = $$('.mission__rig .glass-chip');
+    gsap.from(chips, {
+      yPercent: 40, autoAlpha: 0, rotation: i => (i % 2 ? 4 : -4), duration: 1, stagger: 0.12, ease: 'power3.out',
+      scrollTrigger: { trigger: '.mission__rig', start: 'top 85%' },
+    });
+    // gentle parallax: the staggered column drifts a little faster
+    gsap.to(chips, { y: i => (i % 2 ? -36 : -14), ease: 'none', scrollTrigger: { trigger: '.mission__rig', start: 'top bottom', end: 'bottom top', scrub: true } });
   }
 
   /* ---------------- Generic reveals ---------------- */

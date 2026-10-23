@@ -25,7 +25,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600;800&family=JetBrains+Mono:wght@400;500&display=swap">
   <link rel="preload" as="image" href="assets/img/portrait.webp">
-  <link rel="stylesheet" href="style.css?v=8">
+  <link rel="stylesheet" href="style.css?v=9">
 
   <script type="application/ld+json">
   {
@@ -43,7 +43,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
   <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js" defer></script>
-  <script src="script.js?v=8" defer></script>
+  <script src="script.js?v=9" defer></script>
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
@@ -158,9 +158,12 @@
       <div class="mission__aside">
         <p data-reveal>My job is to make enterprise data feel effortless, so the people who depend on it can stop wrangling and start <em class="serif">deciding</em>.</p>
       </div>
-      <div class="glass-chip glass-chip--mission" aria-hidden="true">
-        <span class="mono">validate.py</span>
-        <code>assert accuracy == 1.00  <i>✓</i></code>
+      <div class="mission__rig" aria-hidden="true">
+        <p class="mission__rig-head mono"><i></i>pipeline · all checks passing</p>
+        <div class="glass-chip"><span class="mono">01 ingest.py</span><code>rows_in = 1.6M <i>✓</i></code></div>
+        <div class="glass-chip"><span class="mono">02 validate.py</span><code>assert accuracy == 1.00 <i>✓</i></code></div>
+        <div class="glass-chip"><span class="mono">03 llm_eval.py</span><code>invalid_outputs == 0 <i>✓</i></code></div>
+        <div class="glass-chip"><span class="mono">04 lineage.py</span><code>630 fields · 95% <i>↑</i></code></div>
       </div>
     </section>
 
