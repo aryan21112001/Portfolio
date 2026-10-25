@@ -711,7 +711,8 @@ ul, ol { list-style: none; }
   /* scroll-driven barrel: cards ride the face of a cylinder */
   .org__graph.is-barrel { width: 100vw; margin-left: calc(-1 * (var(--pad) + 24px)); }
   .is-barrel .org__label { text-align: center; margin-bottom: 0; }
-  .is-barrel .org__nodes { display: block; height: 220px; perspective: 1100px; }
+  /* clip the side cards at the screen edge: overflow here widens the page and Android zooms it out */
+  .is-barrel .org__nodes { display: block; height: 230px; perspective: 1100px; overflow: hidden; }
   .is-barrel .org__nodes > li { position: absolute; left: 50%; top: 50%; width: min(76vw, 300px); will-change: transform, opacity; }
   .is-barrel .job { opacity: 1; }
   .is-barrel .org__strip { display: flex; flex-direction: column; align-items: center; gap: 12px; margin-top: 18px; font-size: 11px; letter-spacing: .12em; color: var(--paper-dim); }
