@@ -411,6 +411,7 @@ ul, ol { list-style: none; }
 .org__hint { margin-top: 14px; }
 .tl p.org__hint { color: var(--lime); }
 .org__hint--narrow { display: none; }
+.org__frame { display: contents; }
 .org__graph { position: relative; flex: none; min-height: 100%; display: flex; padding: 0 clamp(28px, 3vw, 48px); border: 1px solid var(--line); border-radius: 28px; background: rgba(10, 11, 14, .78); }
 .org__label { position: absolute; top: 14px; left: 24px; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--paper-dim); }
 .tl .org__label { margin: 0; color: var(--paper-dim); font-size: 11px; }
@@ -719,6 +720,15 @@ ul, ol { list-style: none; }
   .org__strip li { position: relative; width: 9px; height: 9px; border-radius: 50%; background: var(--ink); border: 1px solid var(--cornflower); transition: background .3s, border-color .3s, box-shadow .3s; }
   .org__strip li.is-seen { background: var(--cornflower); }
   .org__strip li.is-on { background: var(--lime); border-color: var(--lime); box-shadow: 0 0 0 5px rgba(200, 242, 58, .15); }
+  /* phones: the entry sticks (no JS pin) while the drum rolls; ::after is the scroll runway */
+  .tl--org.is-rolling { padding-bottom: 0; }
+  .tl--org.is-rolling::before { display: none; }
+  .tl--org.is-rolling::after { content: ""; display: block; height: 180svh; }
+  .is-rolling .org__frame { display: block; position: sticky; top: 0; height: 100svh; padding-top: 72px; }
+  .is-rolling .org__hub { position: relative; }
+  .is-rolling .org__hub::before { content: ""; position: absolute; left: -24px; top: 18px; width: 11px; height: 11px; margin: -5px 0 0 -5px; border-radius: 50%; background: var(--ink); border: 1px solid var(--cornflower); }
+  .film.is-rolling { height: 380svh; }
+  .film.is-rolling .film__stage { position: sticky; top: 0; height: 100svh; }
 
   .marquee__track { font-size: 13vw; }
   .creds, .pubs, .quotes, .triad, .certs__grid { grid-template-columns: 1fr; }

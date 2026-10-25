@@ -196,17 +196,12 @@
     gsap.set('.act--3', { '--scrim': 0 });
     gsap.set('.act2-line', { autoAlpha: 0, y: 50 });
 
+    // phones scrub a CSS-sticky stage: a JS pin lags and jumps as the address bar slides
     const tl = gsap.timeline({
       defaults: { ease: 'none' },
-      scrollTrigger: {
-        trigger: '.film',
-        start: 'top top',
-        end: () => '+=' + innerHeight * (mobile ? 3.4 : 5),
-        pin: true,
-        scrub: 0.6,
-        anticipatePin: 1,
-        invalidateOnRefresh: true,
-      },
+      scrollTrigger: mobile
+        ? { trigger: '.film', start: 'top top', end: 'bottom bottom', scrub: 0.4, invalidateOnRefresh: true }
+        : { trigger: '.film', start: 'top top', end: () => '+=' + innerHeight * 5, pin: true, scrub: 0.6, anticipatePin: 1, invalidateOnRefresh: true },
     });
 
     // camera orbit (continuous across all three acts)
@@ -309,6 +304,7 @@
         return;
       }
 
+      $('.film').classList.toggle('is-rolling', mobile);
       filmTimeline(mobile);
       let undoOrg;
       if (desktop) {
@@ -322,7 +318,7 @@
         gsap.to('.timeline', { '--line-p': 1, ease: 'none', scrollTrigger: { trigger: '.timeline', start: 'top 70%', end: 'bottom 70%', scrub: true } });
       }
       pillarsStack();
-      return undoOrg;
+      return () => { undoOrg?.(); $('.film').classList.remove('is-rolling'); };
     });
 
     stats();
@@ -430,6 +426,7 @@
     const n = items.length, step = 34, state = { p: 0 }, block = graph.closest('.tl--org');
     let radius = 0;
     graph.classList.add('is-barrel');
+    block.classList.add('is-rolling');
 
     const measure = () => { radius = (items[0].offsetWidth / 2) / Math.tan((step / 2) * Math.PI / 180) * 1.04; };
     const render = () => {
@@ -451,16 +448,15 @@
     render();
     gsap.to(state, {
       p: n - 1, ease: 'none', onUpdate: render,
-      // pin the whole Tredence entry, the way the film pins, so text and drum move as one
+      // the entry is CSS-sticky; this only maps the runway beneath it onto the drum
       scrollTrigger: {
-        trigger: block, start: () => block.offsetHeight >= innerHeight ? 'bottom bottom' : 'center center',
-        end: () => '+=' + innerHeight * .5 * (n - 1),
-        pin: true, pinSpacing: true, scrub: 0.6, anticipatePin: 1, invalidateOnRefresh: true,
+        trigger: block, start: 'top top', end: 'bottom bottom', scrub: 0.4, invalidateOnRefresh: true,
         onRefresh: () => { measure(); render(); },
       },
     });
     return () => {
       graph.classList.remove('is-barrel');
+      block.classList.remove('is-rolling');
       items.forEach(li => li.removeAttribute('style'));
       jobs.forEach(j => j.classList.remove('is-done'));
     };
