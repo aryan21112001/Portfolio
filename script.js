@@ -312,7 +312,6 @@
         horizontal('.work', '.work__track');
         undoOrg = orgGraph('desktop', story);
       } else {
-        // the barrel pins first so every trigger below it measures with its spacing
         undoOrg = orgGraph('mobile');
         $$('.tl').forEach(el => ScrollTrigger.create({ trigger: el, start: 'top 80%', onEnter: () => el.classList.add('is-in') }));
         gsap.to('.timeline', { '--line-p': 1, ease: 'none', scrollTrigger: { trigger: '.timeline', start: 'top 70%', end: 'bottom 70%', scrub: true } });
@@ -369,17 +368,15 @@
   }
 
   /* ---------------- Tredence client graph ---------------- */
-  // Desktop: a DAG whose edges draw as the story track scrolls. Mobile: a pinned barrel.
+  // A DAG of the client jobs, edges drawn as you scroll. Desktop runs it sideways
+  // on the story track; phones run it down the page off the timeline line.
   function orgGraph(mode, storyTween) {
     const graph = $('.org__graph');
     if (!graph) return;
-    const jobs = $$('.job', graph);
-    if (mode === 'static') { jobs.forEach(j => j.classList.add('is-done')); return; }
-    return mode === 'desktop' ? orgDag(graph, jobs, storyTween) : orgBarrel(graph, jobs);
-  }
+    const jobs = $$('.job', graph), event = $('.org__event', graph);
+    if (mode === 'static') { [...jobs, event].forEach(j => j?.classList.add('is-done')); return; }
 
-  function orgDag(graph, jobs, storyTween) {
-    const svg = $('.org__edges', graph), hub = graph.closest('.tl--org');
+    const svg = $('.org__edges', graph), vertical = mode === 'mobile';
     let edges = [], progress = 0;
 
     const render = p => {
@@ -390,75 +387,50 @@
         e.dot.classList.toggle('is-on', t >= 1);
         jobs[i]?.classList.toggle('is-done', t >= 1);
       });
+      event?.classList.toggle('is-done', jobs[2].classList.contains('is-done'));
     };
 
     // route edges from the live card positions: trunk → job_01 → … → job_05 → trunk
     const build = () => {
-      const g = graph.getBoundingClientRect(), mid = g.height / 2;
+      const g = graph.getBoundingClientRect();
       const box = el => { const r = el.getBoundingClientRect(); return { l: r.left - g.left, t: r.top - g.top, b: r.bottom - g.top, w: r.width, cy: r.top - g.top + r.height / 2 }; };
-      const bs = jobs.map(box), first = bs[0], last = bs[bs.length - 1];
-      const hubX = hub.getBoundingClientRect().left - g.left, fx = first.l + first.w * .25, lx = last.l + last.w * .75;
-      const d = [`M${hubX} ${mid} C${hubX + (fx - hubX) * .7} ${mid} ${fx} ${first.b + 40} ${fx} ${first.b}`];
-      for (let i = 0; i < bs.length - 1; i++) {
-        const a = bs[i], b = bs[i + 1], down = b.cy > a.cy;
-        const x1 = a.l + a.w * .75, y1 = down ? a.b : a.t, x2 = b.l + b.w * .25, y2 = down ? b.t : b.b, k = (y2 - y1) / 2;
-        d.push(`M${x1} ${y1} C${x1} ${y1 + k} ${x2} ${y2 - k} ${x2} ${y2}`);
+      const bs = jobs.map(box), first = bs[0], last = bs[bs.length - 1], d = [];
+      const curve = (x1, y1, x2, y2) => { const k = (y2 - y1) / 2; return `M${x1} ${y1} C${x1} ${y1 + k} ${x2} ${y2 - k} ${x2} ${y2}`; };
+      if (vertical) {
+        // anchor on the side each edge turns towards, so it clears the publication marker
+        const tx = $('.timeline').getBoundingClientRect().left - g.left;
+        const side = (a, b) => (b.l > a.l ? .75 : .25);
+        d.push(curve(tx, first.t - 40, first.l + first.w * .25, first.t));
+        for (let i = 0; i < bs.length - 1; i++) {
+          const a = bs[i], b = bs[i + 1], f = side(a, b);
+          d.push(curve(a.l + a.w * f, a.b, b.l + b.w * f, b.t));
+        }
+        d.push(curve(last.l + last.w * .25, last.b, tx, last.b + 40));
+      } else {
+        const mid = g.height / 2, hubX = graph.closest('.tl--org').getBoundingClientRect().left - g.left;
+        const fx = first.l + first.w * .25, lx = last.l + last.w * .75;
+        d.push(`M${hubX} ${mid} C${hubX + (fx - hubX) * .7} ${mid} ${fx} ${first.b + 40} ${fx} ${first.b}`);
+        for (let i = 0; i < bs.length - 1; i++) {
+          const a = bs[i], b = bs[i + 1], down = b.cy > a.cy;
+          d.push(curve(a.l + a.w * .75, down ? a.b : a.t, b.l + b.w * .25, down ? b.t : b.b));
+        }
+        d.push(`M${lx} ${last.b} C${lx} ${mid} ${lx + 30} ${mid} ${g.width} ${mid}`);
       }
-      d.push(`M${lx} ${last.b} C${lx} ${mid} ${lx + 30} ${mid} ${g.width} ${mid}`);
       svg.innerHTML = d.map((p, i) => `<path class="e-ghost" d="${p}"/><path class="e-draw" id="org-e${i}" d="${p}"/><circle class="e-packet" r="2.5"><animateMotion dur="${(1.8 + i * .25).toFixed(2)}s" repeatCount="indefinite"><mpath href="#org-e${i}"/></animateMotion></circle>`).join('');
       const dots = $$('.e-packet', svg);
       edges = $$('.e-draw', svg).map((el, i) => { const len = el.getTotalLength(); el.style.strokeDasharray = len; return { el, len, dot: dots[i] }; });
       render(progress);
     };
 
-    ScrollTrigger.create({ trigger: graph, containerAnimation: storyTween, start: 'left 80%', end: 'right 75%', onUpdate: s => render(s.progress) });
+    ScrollTrigger.create(vertical
+      ? { trigger: graph, start: 'top 75%', end: 'bottom 70%', onUpdate: s => render(s.progress) }
+      : { trigger: graph, containerAnimation: storyTween, start: 'left 80%', end: 'right 75%', onUpdate: s => render(s.progress) });
     build();
     ScrollTrigger.addEventListener('refresh', build);
     return () => {
       ScrollTrigger.removeEventListener('refresh', build);
       svg.innerHTML = '';
-      jobs.forEach(j => j.classList.remove('is-done'));
-    };
-  }
-
-  function orgBarrel(graph, jobs) {
-    const items = jobs.map(j => j.parentElement), dots = $$('.org__strip li', graph), count = $('.org__count', graph);
-    const n = items.length, step = 34, state = { p: 0 }, block = graph.closest('.tl--org');
-    let radius = 0;
-    graph.classList.add('is-barrel');
-    block.classList.add('is-rolling');
-
-    const measure = () => { radius = (items[0].offsetWidth / 2) / Math.tan((step / 2) * Math.PI / 180) * 1.04; };
-    const render = () => {
-      const p = state.p, front = Math.round(p);
-      items.forEach((li, i) => {
-        const d = i - p, a = Math.abs(d);
-        li.style.transform = `translate(-50%, -50%) translateZ(${-radius}px) rotateY(${d * step}deg) translateZ(${radius}px)`;
-        li.style.opacity = Math.max(0, 1 - a * .55);
-        li.style.zIndex = 10 - Math.round(a * 2);
-        li.style.pointerEvents = i === front ? 'auto' : 'none';
-        jobs[i].classList.toggle('is-done', i <= front);
-        dots[i]?.classList.toggle('is-on', i === front);
-        dots[i]?.classList.toggle('is-seen', i < front);
-      });
-      count.textContent = `${String(front + 1).padStart(2, '0')} / ${String(n).padStart(2, '0')}`;
-    };
-
-    measure();
-    render();
-    gsap.to(state, {
-      p: n - 1, ease: 'none', onUpdate: render,
-      // the entry is CSS-sticky; this only maps the runway beneath it onto the drum
-      scrollTrigger: {
-        trigger: block, start: 'top top', end: 'bottom bottom', scrub: 0.4, invalidateOnRefresh: true,
-        onRefresh: () => { measure(); render(); },
-      },
-    });
-    return () => {
-      graph.classList.remove('is-barrel');
-      block.classList.remove('is-rolling');
-      items.forEach(li => li.removeAttribute('style'));
-      jobs.forEach(j => j.classList.remove('is-done'));
+      [...jobs, event].forEach(j => j?.classList.remove('is-done'));
     };
   }
 
