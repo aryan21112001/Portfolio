@@ -305,18 +305,24 @@
       if (reduce) {
         gsap.set(rig, { '--spread': 1, '--vis': 0.8, '--so': 0, '--co': 1 });
         gsap.set('.act--3, .act--2', { autoAlpha: 0 });
+        orgGraph('static');
         return;
       }
 
       filmTimeline(mobile);
+      let undoOrg;
       if (desktop) {
-        horizontal('.story', '.story__track');
+        const story = horizontal('.story', '.story__track');
         horizontal('.work', '.work__track');
+        undoOrg = orgGraph('desktop', story);
       } else {
+        // the barrel pins first so every trigger below it measures with its spacing
+        undoOrg = orgGraph('mobile');
         $$('.tl').forEach(el => ScrollTrigger.create({ trigger: el, start: 'top 80%', onEnter: () => el.classList.add('is-in') }));
         gsap.to('.timeline', { '--line-p': 1, ease: 'none', scrollTrigger: { trigger: '.timeline', start: 'top 70%', end: 'bottom 70%', scrub: true } });
       }
       pillarsStack();
+      return undoOrg;
     });
 
     stats();
@@ -364,6 +370,99 @@
       $$('.tl', sec).forEach(el => ScrollTrigger.create({ trigger: el, containerAnimation: tween, start: 'left 80%', onEnter: () => el.classList.add('is-in') }));
     }
     return tween;
+  }
+
+  /* ---------------- Tredence client graph ---------------- */
+  // Desktop: a DAG whose edges draw as the story track scrolls. Mobile: a pinned barrel.
+  function orgGraph(mode, storyTween) {
+    const graph = $('.org__graph');
+    if (!graph) return;
+    const jobs = $$('.job', graph);
+    if (mode === 'static') { jobs.forEach(j => j.classList.add('is-done')); return; }
+    return mode === 'desktop' ? orgDag(graph, jobs, storyTween) : orgBarrel(graph, jobs);
+  }
+
+  function orgDag(graph, jobs, storyTween) {
+    const svg = $('.org__edges', graph), hub = graph.closest('.tl--org');
+    let edges = [], progress = 0;
+
+    const render = p => {
+      progress = p;
+      edges.forEach((e, i) => {
+        const t = Math.min(1, Math.max(0, p * edges.length - i));
+        e.el.style.strokeDashoffset = e.len * (1 - t);
+        e.dot.classList.toggle('is-on', t >= 1);
+        jobs[i]?.classList.toggle('is-done', t >= 1);
+      });
+    };
+
+    // route edges from the live card positions: trunk → job_01 → … → job_05 → trunk
+    const build = () => {
+      const g = graph.getBoundingClientRect(), mid = g.height / 2;
+      const box = el => { const r = el.getBoundingClientRect(); return { l: r.left - g.left, t: r.top - g.top, b: r.bottom - g.top, w: r.width, cy: r.top - g.top + r.height / 2 }; };
+      const bs = jobs.map(box), first = bs[0], last = bs[bs.length - 1];
+      const hubX = hub.getBoundingClientRect().left - g.left, fx = first.l + first.w * .25, lx = last.l + last.w * .75;
+      const d = [`M${hubX} ${mid} C${hubX + (fx - hubX) * .7} ${mid} ${fx} ${first.b + 40} ${fx} ${first.b}`];
+      for (let i = 0; i < bs.length - 1; i++) {
+        const a = bs[i], b = bs[i + 1], down = b.cy > a.cy;
+        const x1 = a.l + a.w * .75, y1 = down ? a.b : a.t, x2 = b.l + b.w * .25, y2 = down ? b.t : b.b, k = (y2 - y1) / 2;
+        d.push(`M${x1} ${y1} C${x1} ${y1 + k} ${x2} ${y2 - k} ${x2} ${y2}`);
+      }
+      d.push(`M${lx} ${last.b} C${lx} ${mid} ${lx + 30} ${mid} ${g.width} ${mid}`);
+      svg.innerHTML = d.map((p, i) => `<path class="e-ghost" d="${p}"/><path class="e-draw" id="org-e${i}" d="${p}"/><circle class="e-packet" r="2.5"><animateMotion dur="${(1.8 + i * .25).toFixed(2)}s" repeatCount="indefinite"><mpath href="#org-e${i}"/></animateMotion></circle>`).join('');
+      const dots = $$('.e-packet', svg);
+      edges = $$('.e-draw', svg).map((el, i) => { const len = el.getTotalLength(); el.style.strokeDasharray = len; return { el, len, dot: dots[i] }; });
+      render(progress);
+    };
+
+    ScrollTrigger.create({ trigger: graph, containerAnimation: storyTween, start: 'left 80%', end: 'right 75%', onUpdate: s => render(s.progress) });
+    build();
+    ScrollTrigger.addEventListener('refresh', build);
+    return () => {
+      ScrollTrigger.removeEventListener('refresh', build);
+      svg.innerHTML = '';
+      jobs.forEach(j => j.classList.remove('is-done'));
+    };
+  }
+
+  function orgBarrel(graph, jobs) {
+    const items = jobs.map(j => j.parentElement), dots = $$('.org__strip li', graph), count = $('.org__count', graph);
+    const n = items.length, step = 34, state = { p: 0 };
+    let radius = 0;
+    graph.classList.add('is-barrel');
+
+    const measure = () => { radius = (items[0].offsetWidth / 2) / Math.tan((step / 2) * Math.PI / 180) * 1.04; };
+    // hold each card at the front for a beat before rolling on to the next
+    const detent = p => { const i = Math.floor(p), t = Math.min(1, Math.max(0, (p - i - .2) / .6)); return i + t * t * (3 - 2 * t); };
+    const render = () => {
+      const p = detent(state.p), front = Math.round(p);
+      items.forEach((li, i) => {
+        const d = i - p, a = Math.abs(d);
+        li.style.transform = `translate(-50%, -50%) translateZ(${-radius}px) rotateY(${d * step}deg) translateZ(${radius}px)`;
+        li.style.opacity = Math.max(0, 1 - a * .55);
+        li.style.zIndex = 10 - Math.round(a * 2);
+        li.style.pointerEvents = i === front ? 'auto' : 'none';
+        jobs[i].classList.toggle('is-done', i <= front);
+        dots[i]?.classList.toggle('is-on', i === front);
+        dots[i]?.classList.toggle('is-seen', i < front);
+      });
+      count.textContent = `${String(front + 1).padStart(2, '0')} / ${String(n).padStart(2, '0')}`;
+    };
+
+    measure();
+    render();
+    gsap.to(state, {
+      p: n - 1, ease: 'none', onUpdate: render,
+      scrollTrigger: {
+        trigger: graph, start: 'center center', end: () => '+=' + innerHeight * .55 * (n - 1),
+        pin: true, pinSpacing: true, scrub: .6, invalidateOnRefresh: true, onRefresh: () => { measure(); render(); },
+      },
+    });
+    return () => {
+      graph.classList.remove('is-barrel');
+      items.forEach(li => li.removeAttribute('style'));
+      jobs.forEach(j => j.classList.remove('is-done'));
+    };
   }
 
   /* ---------------- Pillars stack ---------------- */
@@ -515,6 +614,9 @@
       const node = $('#awards-detail').content.firstElementChild.cloneNode(true);
       show(node, awards, e.clientX || innerWidth / 2, e.clientY || innerHeight / 2, true);
     });
+    $$('[data-open-case]').forEach(btn => btn.addEventListener('click', e => {
+      open(btn.dataset.openCase, btn, ...(e.detail ? [e.clientX, e.clientY] : centreOf(btn)));
+    }));
     const shut = () => {
       gsap.to(overlay, {
         clipPath: `circle(0% at ${origin})`, duration: reduced ? 0 : 0.7, ease: 'expo.inOut',
