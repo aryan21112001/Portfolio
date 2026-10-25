@@ -427,15 +427,13 @@
 
   function orgBarrel(graph, jobs) {
     const items = jobs.map(j => j.parentElement), dots = $$('.org__strip li', graph), count = $('.org__count', graph);
-    const n = items.length, step = 34, state = { p: 0 };
+    const n = items.length, step = 34, state = { p: 0 }, block = graph.closest('.tl--org');
     let radius = 0;
     graph.classList.add('is-barrel');
 
     const measure = () => { radius = (items[0].offsetWidth / 2) / Math.tan((step / 2) * Math.PI / 180) * 1.04; };
-    // hold each card at the front for a beat before rolling on to the next
-    const detent = p => { const i = Math.floor(p), t = Math.min(1, Math.max(0, (p - i - .2) / .6)); return i + t * t * (3 - 2 * t); };
     const render = () => {
-      const p = detent(state.p), front = Math.round(p);
+      const p = state.p, front = Math.round(p);
       items.forEach((li, i) => {
         const d = i - p, a = Math.abs(d);
         li.style.transform = `translate(-50%, -50%) translateZ(${-radius}px) rotateY(${d * step}deg) translateZ(${radius}px)`;
@@ -453,9 +451,12 @@
     render();
     gsap.to(state, {
       p: n - 1, ease: 'none', onUpdate: render,
+      // pin the whole Tredence entry, the way the film pins, so text and drum move as one
       scrollTrigger: {
-        trigger: graph, start: 'center center', end: () => '+=' + innerHeight * .55 * (n - 1),
-        pin: true, pinSpacing: true, scrub: .6, invalidateOnRefresh: true, onRefresh: () => { measure(); render(); },
+        trigger: block, start: () => block.offsetHeight >= innerHeight ? 'bottom bottom' : 'center center',
+        end: () => '+=' + innerHeight * .5 * (n - 1),
+        pin: true, pinSpacing: true, scrub: 0.6, anticipatePin: 1, invalidateOnRefresh: true,
+        onRefresh: () => { measure(); render(); },
       },
     });
     return () => {
