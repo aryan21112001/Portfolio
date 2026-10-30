@@ -390,7 +390,7 @@
       event?.classList.toggle('is-done', jobs[2].classList.contains('is-done'));
     };
 
-    // route edges from the live card positions: trunk → job_01 → … → job_05 → trunk
+    // route edges from the live card positions: trunk → job_01 → … → job_06 → trunk
     const build = () => {
       const g = graph.getBoundingClientRect();
       const box = el => { const r = el.getBoundingClientRect(); return { l: r.left - g.left, t: r.top - g.top, b: r.bottom - g.top, w: r.width, cy: r.top - g.top + r.height / 2 }; };
@@ -414,7 +414,8 @@
           const a = bs[i], b = bs[i + 1], down = b.cy > a.cy;
           d.push(curve(a.l + a.w * .75, down ? a.b : a.t, b.l + b.w * .25, down ? b.t : b.b));
         }
-        d.push(`M${lx} ${last.b} C${lx} ${mid} ${lx + 30} ${mid} ${g.width} ${mid}`);
+        const ly = last.cy > mid ? last.t : last.b;
+        d.push(`M${lx} ${ly} C${lx} ${mid} ${lx + 30} ${mid} ${g.width} ${mid}`);
       }
       svg.innerHTML = d.map((p, i) => `<path class="e-ghost" d="${p}"/><path class="e-draw" id="org-e${i}" d="${p}"/><circle class="e-packet" r="2.5"><animateMotion dur="${(1.8 + i * .25).toFixed(2)}s" repeatCount="indefinite"><mpath href="#org-e${i}"/></animateMotion></circle>`).join('');
       const dots = $$('.e-packet', svg);
@@ -424,7 +425,7 @@
 
     ScrollTrigger.create(vertical
       ? { trigger: graph, start: 'top 75%', end: 'bottom 70%', onUpdate: s => render(s.progress) }
-      : { trigger: graph, containerAnimation: storyTween, start: 'left 80%', end: 'right 75%', onUpdate: s => render(s.progress) });
+      : { trigger: graph, containerAnimation: storyTween, start: 'left 80%', end: 'right 88%', onUpdate: s => render(s.progress) });
     build();
     ScrollTrigger.addEventListener('refresh', build);
     return () => {
